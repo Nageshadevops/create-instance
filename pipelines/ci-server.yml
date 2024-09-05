@@ -1,0 +1,19 @@
+format_version: 10
+pipelines:
+  ci-server:
+    group: others
+    materials:
+      git-da613e5:
+        git: https://github.com/Nageshadevops/tools-automation-code.git
+        shallow_clone: false
+        auto_update: true
+        branch: main
+    stages:
+      - Ansible:
+          fetch_materials: true
+          approval:
+            type: manual
+          jobs:
+            ansible:
+              tasks:
+                - exec: {command: ansible-playbook, arguments: [ "-i", "ci-server-internal.angadicnc.online,", "tools.yml", "-e", "tool_name=ci-server", "-e", "ansible_user=ec2-user", "-e", "ansible_password=DevOps321" ], run_if: passed}
